@@ -1,0 +1,23 @@
+<h2><a href='/'>WEBSITE</a></h2>
+<hr>
+<ul class='main_nav'>Go to:
+    {% if request.user.is_authenticated %}
+        <li><a href='/basket/'>basket</a></li>
+        <li><a href='/complete_purchase/'>complete_purchase</a></li>
+        <li><a href='/admin/'>admin_panel</a></li>
+    {%endif%}
+    <li><a href='/search/'>search</a></li>
+    <li><a href='/category/'>category</a></li>
+    <li><a href='/contacts/'>contacts</a></li>
+
+
+    {% if request.user.is_authenticated %}
+        <h4>Hello, {{request.user.username}}</h4>
+        <li><a href='/users/logout/'>LogOut</a></li>
+    {%else%}
+        <h4>Hello, guest</h4>
+        <li><a href='/users/login/'>LogIn</a></li>
+    {%endif%}
+
+</ul>
+    
