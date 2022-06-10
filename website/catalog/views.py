@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
+import website.data_access
 
 def index(request):
     return render(request, 'index.html')
@@ -32,4 +32,11 @@ def add_current_item(request, item_id):
         print('action: ' + action)
         print('product: ' + productId)
         return JsonResponse('Item was added', safe=False)
+
+def checkout(request):
+    basket_data = request.session.get('basket', {})
+    user_id = request.user.id
+    basket_data.update({"user_id": user_id})
+    website.data_access.postToDatabase(basket_data, "purchases")
+    return redirect("/")
     

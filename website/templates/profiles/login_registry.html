@@ -1,6 +1,10 @@
 {%extends 'main.html'%}
 
 {% block content%}
+
+
+
+
 <form action={% url 'login'%} method='POST'>
     {% csrf_token %}
     <input type='text' name='username' placeholder='username' />
@@ -14,4 +18,5 @@
     {%endfor%}
 </ul>
 {%endif%}
+
 {%endblock content%}

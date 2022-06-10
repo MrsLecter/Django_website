@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 # Create your views here.
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def profiles(request):
     return render(request, 'users/profiles.html')
 
@@ -35,7 +34,7 @@ def loginPage(request):
         else:
              messages.error(request, 'username or password is incorrect')
              return redirect('')
-    return render(request, 'users/login_registry.html')
+    return render(request, 'profiles/login_registry.html')
 
 def logoutPage(request):
     logout(request)

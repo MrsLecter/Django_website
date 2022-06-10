@@ -7,4 +7,5 @@ urlpatterns = [
     path('', include('basket.urls')),
     path('', include('search.urls')),
     path('', include('catalog.urls')),
+    path('', include('profiles.urls')),
 ]
