@@ -1,23 +1,30 @@
 <h2><a href='/'>WEBSITE</a></h2>
 <hr>
-<ul class='main_nav'>Go to:
+<ul class="nav justify-content-end">
     {% if request.user.is_authenticated %}
-        <li><a href='/basket/'>basket</a></li>
-        <li><a href='/complete_purchase/'>complete_purchase</a></li>
-        <li><a href='/admin/'>admin_panel</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href='/basket/'>Basket</a></li>
+        <li class="nav-item"><a class="nav-link active" href='/complete_purchase/'>Complete_purchase</a></li>
+        <li class="nav-item"><a class="nav-link active" href='/admin/'>Admin_panel</a></li>
     {%endif%}
-    <li><a href='/search/'>search</a></li>
-    <li><a href='/category/'>category</a></li>
-    <li><a href='/contacts/'>contacts</a></li>
+    {% if request.user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href='/basket/'>Basket</a></li>
+        <li class="nav-item"><a class="nav-link" href='/complete_purchase/'>Complete_purchase</a></li>
+        <li class="nav-item"><a class="nav-link" href='/admin/'>Admin_panel</a></li>
+    {%endif%}
+    <li class="nav-item"><a class="nav-link" href='/search/'>Search</a></li>
+    <li class="nav-item"><a class="nav-link" href='/category/'>Category</a></li>
+    <li class="nav-item"><a class="nav-link" href='/contacts/'>Contacts</a></li>
 
 
     {% if request.user.is_authenticated %}
-        <h4>Hello, {{request.user.username}}</h4>
-        <li><a href='/users/logout/'>LogOut</a></li>
+        <li class="nav-item"><a class="nav-link" href=''>Hello, {{request.user.username}}</a></li>
+        <li class="nav-item"><a class="nav-link" href='/users/logout/'>LogOut</a></li>
     {%else%}
-        <h4>Hello, guest</h4>
-        <li><a href='/users/login/'>LogIn</a></li>
+        <li class="nav-item"><a class="nav-link" href=''>Hello, guest !</a></li>
+        <li class="nav-item"><a class="nav-link" href='/users/login/'>LogIn</a></li>
     {%endif%}
+    {% load static%}
+    <li class="nav-item"><a class="nav-link" href='/basket'><img src="{%static 'images/basket.png'%}"</a><span id="basket_counter">0</span></li>
 
-</ul>
-    
+
+  </ul>

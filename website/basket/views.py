@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 def basket(request):
+    basket_data = request.session.get('basket', {})
     return render(request, 'basket/basket.html')
 
 def complete_purchase(request):
