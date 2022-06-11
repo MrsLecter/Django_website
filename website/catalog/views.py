@@ -1,6 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 import website.data_access
 
 def index(request):
@@ -18,13 +19,13 @@ def current_category(request, category):
 def current_item(request, id):
     return render(request, 'catalog/current_item.html', {'data': id})
 
-def add_current_item(request, item_id):
+def add_current_item(request, id):
     if request.method == 'POST':
         basket_data = request.session.get('basket',{}) 
-        item_count = basket_data.get(str(item_id), 0)
-        basket_data[str(item_id)] = item_count + 1
+        item_count = basket_data.get(str(id), 0)
+        basket_data[str(id)] = item_count + 1
         request.session['basket'] = basket_data
-        return redirect("/basket")
+        return render(request, 'catalog/add_current_item.html', {'data':id, 'basket': basket_data})
     else:
         data = json.loads(request.data)
         productId = data['productId']
@@ -33,10 +34,11 @@ def add_current_item(request, item_id):
         print('product: ' + productId)
         return JsonResponse('Item was added', safe=False)
 
+@login_required(login_url='/login/')
 def checkout(request):
     basket_data = request.session.get('basket', {})
     user_id = request.user.id
     basket_data.update({"user_id": user_id})
-    website.data_access.postToDatabase(basket_data, "purchases")
+    website.data_access.postToDatabase(basket_data)
     return redirect("/")
     

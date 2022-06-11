@@ -1,5 +1,8 @@
 console.log('js connected...')
+
 let buttons_addToBasket = document.getElementsByClassName("add-basket");
+
+
 for (let i = 0; i < buttons_addToBasket.length; i++) {
   buttons_addToBasket[i].addEventListener("click", function () {
     //add to basket 
@@ -21,9 +24,11 @@ for (let i = 0; i < buttons_addToBasket.length; i++) {
   });
 }
 
+
 async function updateUserOrder(productId, actionOfButton){
     console.log('user is auth, send data');
-    const url = `/item/${productId}/add/`;
+    const url = `http://127.0.0.1:8000/item/${productId}/add/`;
+    console.log('url: ' + url)
     await fetch(url, {
         method:'POST',
         headers:{
@@ -41,3 +46,4 @@ async function updateUserOrder(productId, actionOfButton){
     })
     .catch(err => console.log(err))
 }
+

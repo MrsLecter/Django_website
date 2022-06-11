@@ -10,7 +10,7 @@
                 <tr>
                     <th><h5>Items: <strong>2</strong></h5></th>
                     <th><h5>Total: <strong>$1100</strong></h5></th>
-                    <th><button type="button" class="btn btn-primary">Buy</button></th>
+                    <th><a class="btn btn-primary" href='/checkout/'>Buy</a></th>
         </div>
         <hr>
         <div class='box-element'>
@@ -19,16 +19,17 @@
                 <div style='flex:2'>Product</div>
                 <div style='flex:2'>Price</div>
                 <div style='flex:2'>Amount</div>
-                <div style='flex:2'>Total</div>
             </div>
+            {%for item in data%}
             <div class='row'>
                 <div style='flex:2'></div>
-                <div style='flex:2'>item</div>
-                <div style='flex:2'>$550</div>
-                <div style='flex:2'>2</div>
+                <div style='flex:2'>{{item}}</div>
+                <div style='flex:2'>${{item}}</div>
                 <div style='flex:2'>2</div>
             </div>
+            {%endfor%}
         </div>
     </div>
 </div>
+<p>Current basket data: {{data}}</p>
 {% endblock %}
