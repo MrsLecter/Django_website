@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 import pymongo
 import json
 
+# dbname: "users_basket", "purchases", "goods"
 
 def get_database():
     print('db connected')
@@ -15,9 +16,9 @@ def get_database():
 
 
 # TODO: add error processing
-def postToDatabase(obj):
+def postToDatabase(obj, db="users_basket"):
     dbname = get_database()
-    collection_name = dbname["users_basket"]
+    collection_name = dbname[db]
     now = datetime.now()
     create_date = now.strftime("%m/%d/%Y, %H:%M:%S")
     create = parser.parse(create_date)
@@ -25,9 +26,9 @@ def postToDatabase(obj):
     collection_name.insert_one(obj)
 
 
-def getFromDatabase():
+def getFromDatabase(db="users_basket"):
     dbname = get_database()
-    collection_name = dbname["users_basket"]
+    collection_name = dbname[db]
     arr_obj = []
     item_details = collection_name.find()
     for item in item_details:
@@ -35,24 +36,24 @@ def getFromDatabase():
     return arr_obj
 
 
-def getObjectById(object_id):
+def getObjectById(object_id, db="users_basket"):
     dbname = get_database()
-    collection_name = dbname["users_basket"]
-    arr_obj = []
+    collection_name = dbname[db]
+    # arr_obj = []
     item = collection_name.find_one({'_id': ObjectId(object_id)})
     return item
 
 
-def deleteByObjectId(object_id):
+def deleteByObjectId(object_id, db="users_basket"):
     dbname = get_database()
-    collection_name = dbname["users_basket"]
+    collection_name = dbname[db]
     result = collection_name.delete_one({'_id': ObjectId(object_id)})
     return result.deleted_count
 
 
-def updateById(object_id, new_part):
+def updateById(object_id, new_part, db="users_basket"):
     dbname = get_database()
-    collection_name = dbname["users_basket"]
+    collection_name = dbname[db]
     result = collection_name.update_one(
         {'_id': ObjectId(object_id)}, {'$set': new_part})
     return result.matched_count

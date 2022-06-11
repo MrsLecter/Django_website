@@ -11,12 +11,14 @@ def contact_page(request):
     return render(request, 'contact_page.html')
 
 def category(request):
+
     return render(request, 'catalog/category.html')
 
 def current_category(request, category):
     return render(request, 'catalog/category.html', {'data': category})
 
 def current_item(request, id):
+    # website.data_access.getObjectById(id, "goods")
     return render(request, 'catalog/current_item.html', {'data': id})
 
 def add_current_item(request, id):
@@ -39,6 +41,6 @@ def checkout(request):
     basket_data = request.session.get('basket', {})
     user_id = request.user.id
     basket_data.update({"user_id": user_id})
-    website.data_access.postToDatabase(basket_data)
+    website.data_access.postToDatabase(basket_data, "purchases")
     return redirect("/")
     
