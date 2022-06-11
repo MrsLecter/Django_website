@@ -16,3 +16,8 @@
 .basket-row div{
     display: block;
 }
+
+.product_item img{
+    width: 100px;
+    height: 100px;
+}

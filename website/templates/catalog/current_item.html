@@ -1,21 +1,13 @@
 {%extends 'main.html'%} 
 {% load static %}
 {% block content%}
-<h2>current item with id:{{data}} page</h2>
-<img class='product_item' src={% static 'images/product.png'%}>
+<img class='product_item rounded img-fluid' src={{item.picture_link}}>
 <br>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-  pellentesque sed urna et tristique. Cras sem sem, aliquam sit amet dui
-  fermentum, sagittis ornare ex. Mauris dignissim ligula commodo efficitur
-  aliquet. Aliquam erat volutpat. Nulla ut leo blandit, dictum risus eget,
-  hendrerit urna. Donec nibh felis, tempor at nisl ac, vestibulum consectetur
-  massa. Suspendisse porta pretium dignissim. Nulla hendrerit, nisi ac
-  condimentum vulputate, velit mauris dapibus risus, eget viverra massa diam in
-  dui. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
-  ridiculus mus. Phasellus pulvinar, ipsum ac ultricies accumsan, sem metus
-  pulvinar massa, id commodo felis sapien quis massa.
-</p>
+<hr>
+<p><i>Description: </i>{{item.description}}</p>
+<p><i>Category: </i>{{item.category}}</p>
+<p><i>Price: </i>{{item.price}}</p>
+<p><i>Presence: </i>{{item.presence}}</p>
 <form action="/item/{{data}}/add" method="POST">
   {% csrf_token %}
   <input type="submit" value="Add"/>

@@ -43,6 +43,14 @@ def getObjectById(object_id, db="users_basket"):
     item = collection_name.find_one({'_id': ObjectId(object_id)})
     return item
 
+def getAllObject( db="users_basket"):
+    dbname = get_database()
+    collection_name = dbname[db]
+    arr_obj = []
+    for x in collection_name.find({}): 
+        arr_obj.append(x)
+    return arr_obj
+
 
 def deleteByObjectId(object_id, db="users_basket"):
     dbname = get_database()
@@ -68,4 +76,28 @@ def updateById(object_id, new_part, db="users_basket"):
 #     "ingredients" : "food for animals",
 #     "expiry_date" : expiry
 #     }
-#     print(postToDatabase(item_3))
+
+    # #goods
+    # item = {
+    # "goods_name" : "Yamaha Pacifica PAC112JL YNS Left-Handed Electric Guitar",
+    # "category" : 'Music&Hobby',
+    # "subcategory" : "music",
+    # "price": 800,
+    # "picture_link": "https://m.media-amazon.com/images/I/31QYAWpRYfL._AC_.jpg",
+    # "description": "Humbucker pickup in bridge with 2 single coils",
+    # "presence": "true",
+    # "expiry_date" : expiry
+    # }
+
+    # postToDatabase(item, "goods")
+    #purchases
+    # item_2 = {
+    # "goods" : item,
+    # "price": 2500,
+    # "total" : 4,
+    # "status" : "paid",
+    # "ttn": "asdfasdf",
+    # "delivery": {"country": "Ukraine", "town": "Kharkov", "street": "Astronomichnaya", "house": 25}
+    # "expiry_date" : expiry
+    # }
+    # print(postToDatabase(item, "goods"))
