@@ -5,7 +5,6 @@ from numpy import integer
 import website.data_access
 
 
-
 def search(request):
     keyword = request.GET.get('keyword', '')
     price_from = request.GET.get('price_from')
@@ -16,17 +15,15 @@ def search(request):
 
     # find all categories
     db_category = []
-    db_prices = []
+    db_ids = []
     for item in all_items:
         db_category.append(item['category'])
-        db_prices.append(item['price'])
+        db_ids.append(item['_id'])
 
     unique_category = set(db_category)
-    db_prices.sort()
-    price_min = db_prices[0]
-    price_max = db_prices[len(db_prices)-1]
     goods_current_category = website.data_access.getGoodsFromCurrentCategory(category, "goods")
 
+    print(keyword,price_from )
 
 
 
@@ -37,9 +34,10 @@ def search(request):
     #     make_request(filter_obj, price_from, price_to)
 
     # if category != "all_categories":
-    #     update_category(filter_obj, category)
+    #     update_search_category(filter_obj, category)
 
-    # filtered_goods = getAllObject("goods")
+    # filtered_goods = website.data_access.getAllObject("goods")
 
     # items = website.data_access.getAllObject('category')
-    return render(request, "search/search.html", {"category": unique_category, "goods": goods_current_category, "price_min": price_min, "price_max": price_max})
+    return render(request, "search/search.html", {"category": unique_category, "goods": goods_current_category, "items": all_items, "ids": db_ids})
+  
