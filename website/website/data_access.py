@@ -15,7 +15,6 @@ def get_database():
     return client['user_shopping_list']
 
 
-# TODO: add error processing
 def postToDatabase(obj, db="users_basket"):
     dbname = get_database()
     collection_name = dbname[db]
@@ -43,6 +42,7 @@ def getObjectById(object_id, db="users_basket"):
     item = collection_name.find_one({'_id': ObjectId(object_id)})
     return item
 
+
 def getAllObject( db="users_basket"):
     dbname = get_database()
     collection_name = dbname[db]
@@ -66,8 +66,23 @@ def updateById(object_id, new_part, db="users_basket"):
         {'_id': ObjectId(object_id)}, {'$set': new_part})
     return result.matched_count
 
+
+def getGoodsFromCurrentCategory(category, db="goods"):
+    dbname = get_database()
+    collection_name = dbname[db]
+    arr_obj = []
+    for x in collection_name.find({"category" : category}): 
+        arr_obj.append(x)
+    return arr_obj
+
+
+
+
+
 # example of usage
 # if __name__ == '__main__':
+
+    # print(getCurrentCategory('Music&Hobby'))
 #     expiry_date = '2021-07-13T00:00:00.000Z'
 #     expiry = parser.parse(expiry_date)
 #     item_3 = {
