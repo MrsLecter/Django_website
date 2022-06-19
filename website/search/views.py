@@ -25,15 +25,14 @@ def search(request):
     keyword = request.GET.get('keyword') or None
     price_from = request.GET.get('price_from') or prices[0]
     price_to = request.GET.get('price_to') or prices[len(prices)-1]
-    category = request.GET.getlist('category') or None
+    category = request.GET.get('category') or None
 
-    print(keyword, price_from, price_to, category)
     # general filter
     main_filter = {}
     # filter by keyword
     filter_goods = {'goods_name': re.compile(f".*{keyword}.*", re.IGNORECASE)}
     # filter category
-    filter_category = {'category':  {" $all": [ category ] }}
+    filter_category = {'category': category}
     # filter price
     filter_price = {"price" : { "$gt" : price_from, "$lt" : price_to}}
 
@@ -42,11 +41,13 @@ def search(request):
         # build main filter
         if(keyword is not None):
             main_filter.update(filter_goods)
-        if (category is not None):           
-            main_filter.update(filter_category)
+        
         if(price_from is not None) or (price_to is not None):
             main_filter.update(filter_price)
-        print(main_filter)
+
+        if (category is not None):
+            main_filter.update(filter_category)
+            
         filtered_goods = website.data_access.getFilteredItems(main_filter)
     else:
         find_something_flag = False
