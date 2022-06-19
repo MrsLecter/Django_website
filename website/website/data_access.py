@@ -4,6 +4,7 @@ from datetime import datetime
 from pandas import DataFrame
 from bson.objectid import ObjectId
 import pymongo
+import re
 import json
 
 # dbname: "users_basket", "purchases", "goods"
@@ -76,12 +77,22 @@ def getGoodsFromCurrentCategory(category, db="goods"):
     return arr_obj
 
 
-
+def getFilteredItems(filter):
+    dbname = get_database()
+    collection_name = dbname["goods"]
+    arr_obj = []
+    item_details = collection_name.find(filter)
+    for item in item_details:
+        arr_obj.append(item)
+    return arr_obj
 
 
 # example of usage
-# if __name__ == '__main__':
-
+if __name__ == '__main__':
+    lnt = None
+    lll = lnt or 43
+    print(lll)
+    # print(getFilteredItems(filter_price))
     # print(getCurrentCategory('Music&Hobby'))
 #     expiry_date = '2021-07-13T00:00:00.000Z'
 #     expiry = parser.parse(expiry_date)

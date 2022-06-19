@@ -6,38 +6,51 @@ import website.data_access
 
 
 def search(request):
-    keyword = request.GET.get('keyword', '')
-    price_from = request.GET.get('price_from')
-    price_to = request.GET.get('price_to')
-    category = request.GET.get('category')
+    # if something found - True
+    find_something_flag = False
 
+    # ----fill search form----
     all_items = website.data_access.getAllObject("goods")
-
     # find all categories
     db_category = []
     db_ids = []
+    prices= []
     for item in all_items:
         db_category.append(item['category'])
         db_ids.append(item['_id'])
-
+        prices.append(item['price'])
     unique_category = set(db_category)
-    goods_current_category = website.data_access.getGoodsFromCurrentCategory(category, "goods")
+    prices.sort()
+    # ----/fill search form-----
+    keyword = request.GET.get('keyword') or None
+    price_from = request.GET.get('price_from') or prices[0]
+    price_to = request.GET.get('price_to') or prices[len(prices)-1]
+    category = request.GET.getlist('category') or None
 
-    print(keyword,price_from )
+    print(keyword, price_from, price_to, category)
+    # general filter
+    main_filter = {}
+    # filter by keyword
+    filter_goods = {'goods_name': re.compile(f".*{keyword}.*", re.IGNORECASE)}
+    # filter category
+    filter_category = {'category':  {" $all": [ category ] }}
+    # filter price
+    filter_price = {"price" : { "$gt" : price_from, "$lt" : price_to}}
 
+    if(keyword is not None) or (category is not None) or(price_from is not None) or (price_to is not None):
+        find_something_flag = True
+        # build main filter
+        if(keyword is not None):
+            main_filter.update(filter_goods)
+        if (category is not None):           
+            main_filter.update(filter_category)
+        if(price_from is not None) or (price_to is not None):
+            main_filter.update(filter_price)
+        print(main_filter)
+        filtered_goods = website.data_access.getFilteredItems(main_filter)
+    else:
+        find_something_flag = False
+        filtered_goods = all_items
 
-
-
-    # filter_obj = {'name': re.compile(f".*{keyword}.*", re.IGNORECASE)}
-
-    # if price_from is not None and price_to is not None:
-    #     make_request(filter_obj, price_from, price_to)
-
-    # if category != "all_categories":
-    #     update_search_category(filter_obj, category)
-
-    # filtered_goods = website.data_access.getAllObject("goods")
-
-    # items = website.data_access.getAllObject('category')
-    return render(request, "search/search.html", {"category": unique_category, "goods": goods_current_category, "items": all_items, "ids": db_ids})
-  
+    return render(request, "search/search.html", {"ifFind": find_something_flag,"category": unique_category, "goods": filtered_goods, "items": all_items, "ids": db_ids})
+    
