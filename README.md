@@ -1,7 +1,7 @@
 ## Django shop
 
 ### Description
-<p>Shop on Django>
+<p>Shop on Django</p>
 
 ### What it can do
 <ul>
